@@ -1,0 +1,61 @@
+{% extends 'user/base.html' %}
+{% block title %}Loan Receipt{% endblock %}
+{% block content %}
+<main class="flex-1 overflow-y-auto hide-scrollbar md:px-6 sm:px-4 md:py-4 sm:py-2">
+    <a href="{% url 'my_loans' %}" class="flex items-center w-fit md:gap-4 sm:gap-2 mb-4">
+        <i class="ph ph-arrow-left text-xl"></i>
+        <h5 class="text-shark-800 cursor-pointer">Loan Receipt</h5>
+    </a>
+
+    <div class="max-w-3xl w-full mx-auto bg-white border border-shark-200 rounded-lg md:p-8 sm:p-6">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-2xl font-bold text-shark-900">Loan Application</h2>
+                <p class="text-shark-500 text-sm">Reference: <span class="font-mono">{{ reference }}</span></p>
+            </div>
+            <div>
+                {% with s=loan.status %}
+                    {% if s == 'approved' or s == 'active' %}
+                        <span class="px-3 py-1 rounded text-xs font-semibold bg-green-100 text-green-700">{{ loan.status|title }}</span>
+                    {% elif s == 'pending' %}
+                        <span class="px-3 py-1 rounded text-xs font-semibold bg-yellow-100 text-yellow-700">Pending</span>
+                    {% elif s == 'rejected' or s == 'closed' %}
+                        <span class="px-3 py-1 rounded text-xs font-semibold bg-red-100 text-red-700">{{ loan.status|title }}</span>
+                    {% else %}
+                        <span class="px-3 py-1 rounded text-xs font-semibold bg-shark-100 text-shark-700">{{ loan.status|title }}</span>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-6">
+            <div class="space-y-3">
+                <p class="flex items-center justify-between text-shark-600">Loan Type <span class="font-medium text-shark-900">{{ loan.get_loan_type_display }}</span></p>
+                <p class="flex items-center justify-between text-shark-600">Loan Amount <span class="font-medium text-shark-900">{{ account.currency }} {{ loan.loan_amount|floatformat:2 }}</span></p>
+                <p class="flex items-center justify-between text-shark-600">Interest Rate <span class="font-medium text-shark-900">{{ loan.interest_rate }}%</span></p>
+                <p class="flex items-center justify-between text-shark-600">Term (Months) <span class="font-medium text-shark-900">{{ loan.term_months }}</span></p>
+            </div>
+            <div class="space-y-3">
+                <p class="flex items-center justify-between text-shark-600">Monthly Payment <span class="font-medium text-shark-900">{{ account.currency }} {{ loan.monthly_payment|floatformat:2 }}</span></p>
+                <p class="flex items-center justify-between text-shark-600">Outstanding Balance <span class="font-medium text-shark-900">{{ account.currency }} {{ loan.outstanding_balance|floatformat:2 }}</span></p>
+                <p class="flex items-center justify-between text-shark-600">Applied On <span class="font-medium text-shark-900">{{ loan.application_date|date:'M d, Y h:i A' }}</span></p>
+                {% if loan.approval_date %}
+                <p class="flex items-center justify-between text-shark-600">Approval Date <span class="font-medium text-shark-900">{{ loan.approval_date|date:'M d, Y h:i A' }}</span></p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if loan.purpose %}
+        <div class="mt-8">
+            <h3 class="text-lg font-semibold mb-2">Purpose</h3>
+            <p class="text-shark-600">{{ loan.purpose }}</p>
+        </div>
+        {% endif %}
+
+        <div class="mt-10 flex items-center gap-4">
+            <a href="{% url 'my_loans' %}" class="h-[44px] flex-center px-6 bg-shark-800 text-white rounded-md">Back to Loans</a>
+            <button type="button" id="print-loan-receipt" class="h-[44px] flex-center px-6 bg-purple-heart-800 text-white rounded-md print-receipt">Print Receipt</button>
+        </div>
+    </div>
+</main>
+{% endblock %}

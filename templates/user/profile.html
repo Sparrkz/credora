@@ -1,0 +1,269 @@
+{% extends "user/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<main class="flex-1 overflow-y-auto hide-scrollbar">
+            <div>
+                <div class="flex items-center justify-between md:px-6 sm:px-4 md:py-4 sm:py-2">
+                    <a href="{% url 'user_dashboard' %}"
+                       class="flex items-center w-fit md:gap-4 sm:gap-2">
+                        <i class="ph ph-arrow-left text-xl"></i>
+                        <h5 class="text-shark-800 cursor-pointer">Profile</h5>
+                    </a>
+                </div>
+
+                <div class="h-full flex md:px-6 sm:px-4 mb-12">
+                    <div class="h-full w-full flex flex-col gap-6">
+                        <!-- Profile Header Card -->
+                        <div class="w-full bg-gradient-to-br from-purple-heart-600 to-purple-heart-800 rounded-lg md:p-8 sm:p-6 text-white relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32"></div>
+                            <div class="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -ml-24 -mb-24"></div>
+                            
+                            <div class="relative z-10 flex sm:flex-col md:flex-row items-center gap-6">
+                                <!-- Profile Picture -->
+                                <div class="shrink-0 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                                    {% if customer.profile_picture %}
+                                        <img src="{{ customer.profile_picture.url }}"
+                                             alt="{{ request.user.get_full_name }}"
+                                             class="object-cover w-full h-full">
+                                    {% else %}
+                                        <div class="w-full h-full bg-purple-heart-100 flex items-center justify-center">
+                                            <i class="ph-fill ph-user text-6xl text-purple-heart-800"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Profile Info -->
+                                <div class="flex-1 sm:text-center md:text-left">
+                                    <h2 class="text-3xl font-bold mb-2">{{ request.user.get_full_name }}</h2>
+                                    <p class="text-purple-heart-100 text-lg mb-4">{{ request.user.email }}</p>
+                                    <div class="flex sm:justify-center md:justify-start gap-4">
+                                        <a href="{% url 'manage_account' %}" 
+                                           class="px-6 py-2 bg-white text-purple-heart-800 rounded-lg font-semibold hover:bg-purple-heart-50 transition-colors">
+                                            <i class="ph ph-pencil-simple mr-2"></i>Edit Profile
+                                        </a>
+                                        <a href="{% url 'security_settings' %}" 
+                                           class="px-6 py-2 bg-purple-heart-700 text-white rounded-lg font-semibold hover:bg-purple-heart-900 transition-colors border border-white border-opacity-20">
+                                            <i class="ph ph-lock-simple mr-2"></i>Security
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Details Grid -->
+                        <div class="grid md:grid-cols-2 sm:grid-cols-1 gap-6">
+                            <!-- Personal Information Card -->
+                            <div class="bg-white border border-shark-200 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold text-shark-800">Personal Information</h3>
+                                    <i class="ph-fill ph-user-circle text-3xl text-purple-heart-800"></i>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-identification-card text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Full Name</p>
+                                            <p class="text-base font-semibold text-shark-800">{{ request.user.get_full_name }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-envelope-simple text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Email Address</p>
+                                            <p class="text-base font-semibold text-shark-800">{{ request.user.email }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-phone-call text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Phone Number</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if customer.phone %}{{ customer.phone }}{% else %}Not provided{% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-person-simple text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Gender</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if customer.gender %}{{ customer.get_gender_display }}{% else %}Not specified{% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3">
+                                        <i class="ph ph-calendar text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Date of Birth</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if customer.date_of_birth %}{{ customer.date_of_birth|date:"F d, Y" }}{% else %}Not provided{% endif %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Location Information Card -->
+                            <div class="bg-white border border-shark-200 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold text-shark-800">Location Information</h3>
+                                    <i class="ph-fill ph-map-pin text-3xl text-purple-heart-800"></i>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-house text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Address</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if customer.address %}{{ customer.address }}{% else %}Not provided{% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-buildings text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">City</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if customer.city %}{{ customer.city }}{% else %}Not provided{% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-map-trifold text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">State/Province</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if customer.state %}{{ customer.state }}{% else %}Not provided{% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-flag text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Country</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if customer.country %}{{ customer.country }}{% else %}Not provided{% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3">
+                                        <i class="ph ph-map-pin-line text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Postal Code</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if customer.postal_code %}{{ customer.postal_code }}{% else %}Not provided{% endif %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Account Information Card -->
+                            <div class="bg-white border border-shark-200 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold text-shark-800">Account Information</h3>
+                                    <i class="ph-fill ph-identification-badge text-3xl text-purple-heart-800"></i>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-identification-card text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Customer ID</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if customer.id_number %}{{ customer.id_number }}{% else %}Not available{% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-calendar-plus text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Member Since</p>
+                                            <p class="text-base font-semibold text-shark-800">{{ request.user.date_joined|date:"F d, Y" }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3 pb-4 border-b border-shark-100">
+                                        <i class="ph ph-clock text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Last Login</p>
+                                            <p class="text-base font-semibold text-shark-800">{% if request.user.last_login %}{{ request.user.last_login|date:"F d, Y g:i A" }}{% else %}Never{% endif %}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3">
+                                        <i class="ph ph-shield-check text-xl text-shark-400 mt-1"></i>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-shark-500">Account Status</p>
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-success-100 text-success">
+                                                <i class="ph-fill ph-check-circle mr-1"></i>Active
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Security & Settings Card -->
+                            <div class="bg-white border border-shark-200 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold text-shark-800">Security & Settings</h3>
+                                    <i class="ph-fill ph-lock-key text-3xl text-purple-heart-800"></i>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <a href="{% url 'security_settings' %}" class="flex items-center gap-3 p-4 rounded-lg border border-shark-100 hover:border-purple-heart-200 hover:bg-purple-heart-50 transition-all group">
+                                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-heart-100 group-hover:bg-purple-heart-200 transition-colors">
+                                            <i class="ph-fill ph-lock-simple text-xl text-purple-heart-800"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-semibold text-shark-800">Change Password</p>
+                                            <p class="text-sm text-shark-500">Update your account password</p>
+                                        </div>
+                                        <i class="ph ph-caret-right text-xl text-shark-400 group-hover:text-purple-heart-800"></i>
+                                    </a>
+
+                                    <a href="{% url 'pin_settings' %}" class="flex items-center gap-3 p-4 rounded-lg border border-shark-100 hover:border-purple-heart-200 hover:bg-purple-heart-50 transition-all group">
+                                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-heart-100 group-hover:bg-purple-heart-200 transition-colors">
+                                            <i class="ph-fill ph-keyhole text-xl text-purple-heart-800"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-semibold text-shark-800">Transaction PIN</p>
+                                            <p class="text-sm text-shark-500">Manage your security PIN</p>
+                                        </div>
+                                        <i class="ph ph-caret-right text-xl text-shark-400 group-hover:text-purple-heart-800"></i>
+                                    </a>
+
+                                    <a href="{% url 'manage_account' %}" class="flex items-center gap-3 p-4 rounded-lg border border-shark-100 hover:border-purple-heart-200 hover:bg-purple-heart-50 transition-all group">
+                                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-heart-100 group-hover:bg-purple-heart-200 transition-colors">
+                                            <i class="ph-fill ph-user-circle text-xl text-purple-heart-800"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-semibold text-shark-800">Edit Profile</p>
+                                            <p class="text-sm text-shark-500">Update your personal information</p>
+                                        </div>
+                                        <i class="ph ph-caret-right text-xl text-shark-400 group-hover:text-purple-heart-800"></i>
+                                    </a>
+
+                                    <a href="{% url 'notifications' %}" class="flex items-center gap-3 p-4 rounded-lg border border-shark-100 hover:border-purple-heart-200 hover:bg-purple-heart-50 transition-all group">
+                                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-heart-100 group-hover:bg-purple-heart-200 transition-colors">
+                                            <i class="ph-fill ph-bell text-xl text-purple-heart-800"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-semibold text-shark-800">Notifications</p>
+                                            <p class="text-sm text-shark-500">View your notifications</p>
+                                        </div>
+                                        <i class="ph ph-caret-right text-xl text-shark-400 group-hover:text-purple-heart-800"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  Footer  -->
+                <div class="md:px-16 sm:px-4 py-4 w-full flex items-center justify-between border-t border-shark-200">
+                    <p>Need Help? <a href="{% url 'contact' %}">Contact Customer Care</a></p>
+                    <i class="ph-fill ph-headset"></i>
+                </div>
+            </div>
+        </main>
+
+    </div>
+</div>
+{% endblock %}

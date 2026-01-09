@@ -1,0 +1,221 @@
+
+<!-- header-->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token }}" />
+    <meta name="theme-color" content="#5a03d5" />
+    <meta content="Welcome to Corion, your trusted partner in secure and innovative online banking. Manage your finances with ease, track your transactions, and enjoy unparalleled banking services designed to meet your needs. Join us today and experience the future of banking."
+        name="description">
+    <meta content="Corion, online banking, secure banking, innovative banking, financial management, banking solutions, digital banking, secure transactions"
+        name="keywords">
+    <meta content="Corion" name="author">
+    <meta content="index, follow" name="robots">
+    <link href="{% static 'src/images/favicon.png' %}" rel="icon">
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+
+
+    <meta property="og:title" content="Verify PIN | Secure and Innovative Online Banking Solutions">
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/src/images/logo.png">
+    <meta property="og:url" content="https://Corion.com/verify-pin">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="/src/images/logo.png">
+
+    <title>Verify PIN | Secure and Innovative Online Banking Solutions</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500&family=Urbanist:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Phosphorus Icon Regular Weight -->
+    <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet">
+
+    <!-- Phosphorus Icon Fill Weight -->
+    <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet">
+
+    <!-- Loader CSS -->
+    <link href="{% static 'src/css/loader.css' %}" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <link href="{% static 'src/css/output.css' %}" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Loader -->
+    <div id="preloader-container">
+    <div class="dot-spinner">
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+    </div>
+<script>
+// Fallback to hide preloader if jQuery doesn't load
+window.addEventListener('load', function() {
+    var preloader = document.getElementById('preloader-container');
+    if (preloader) {
+        setTimeout(function() {
+            preloader.style.display = 'none';
+        }, 500);
+    }
+});
+</script>
+
+</div>
+
+    <div class="h-svh grid md:grid-cols-2 sm:grid-cols-1">
+        <!-- Left Banner Section -->
+        <div class="inset-0 sm:hidden md:block relative bg-cover bg-center bg-purple-heart-50 min-h-svh w-full" style="background-image: url('{% static 'src/images/auth/login-banner.jpg' %}');">
+            <div class="px-6 my-6">
+                <a href="{% url 'home' %}" class="block ">
+                    <img alt="Corion Logo" class="h-[50px]" src="{% static 'src/images/logo.png' %}">
+                </a>
+            </div>
+            <div class="flex items-center justify-center h-full p-6">
+                <div class="text-center text-white">
+                    <i class="ph-fill ph-lock-key text-8xl mb-6"></i>
+                    <h1 class="text-4xl font-bold mb-4">Security Verification</h1>
+                    <p class="text-xl text-purple-heart-100 max-w-md mx-auto">
+                        For your security, please enter your PIN to access your account.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Form Section -->
+        <div class="flex items-center justify-center md:p-12 sm:p-6 bg-white">
+            <div class="w-full max-w-md">
+                <div class="mb-8 text-center">
+                    <a href="{% url 'home' %}" class="block mb-6 md:hidden">
+                        <img alt="Corion Logo" class="h-[50px] mx-auto" src="{% static 'src/images/logo.png' %}">
+                    </a>
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-4 rounded-full bg-purple-heart-100">
+                        <i class="ph-fill ph-keyhole text-4xl text-purple-heart-800"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-shark-800 mb-2">Enter Your PIN</h2>
+                    <p class="text-shark-600">Welcome back, {{ request.user.first_name|default:request.user.username }}!</p>
+                    <p class="text-sm text-shark-500 mt-2">Please enter your 4-6 digit security PIN to continue</p>
+                </div>
+
+                <!-- Display Messages -->
+                {% if messages %}
+                <div class="mb-6 space-y-2">
+                    {% for message in messages %}
+                    <div class="p-4 rounded-lg {% if message.tags == 'error' %}bg-red-50 text-red-800 border border-red-200{% elif message.tags == 'success' %}bg-green-50 text-green-800 border border-green-200{% else %}bg-blue-50 text-blue-800 border border-blue-200{% endif %}">
+                        <div class="flex items-center gap-2">
+                            <i class="ph-fill {% if message.tags == 'error' %}ph-warning-circle{% elif message.tags == 'success' %}ph-check-circle{% else %}ph-info{% endif %}"></i>
+                            <span>{{ message }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'verify_pin' %}" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <!-- PIN Input -->
+                    <div>
+                        <label for="pin" class="block mb-2 text-sm font-semibold text-shark-800">
+                            Security PIN
+                        </label>
+                        <div class="relative">
+                            <input type="password" 
+                                   id="pin" 
+                                   name="pin" 
+                                   maxlength="6"
+                                   pattern="[0-9]{4,6}"
+                                   class="w-full px-4 py-4 text-center text-2xl tracking-widest border border-shark-200 rounded-lg focus:ring-2 focus:ring-purple-heart-500 focus:border-purple-heart-500 outline-none" 
+                                   placeholder="••••••"
+                                   required
+                                   autofocus>
+                            <button type="button" 
+                                    onclick="togglePinVisibility()"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-shark-400 hover:text-purple-heart-800">
+                                <i id="pin-eye-icon" class="ph ph-eye text-xl"></i>
+                            </button>
+                        </div>
+                        <p class="mt-2 text-xs text-shark-500">Enter your 4-6 digit PIN</p>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" 
+                            class="w-full py-4 px-6 bg-purple-heart-800 text-white rounded-lg font-semibold hover:bg-purple-heart-900 transition-colors focus:ring-4 focus:ring-purple-heart-200">
+                        <i class="ph ph-shield-check mr-2"></i>Verify PIN
+                    </button>
+
+                    <!-- Forgot PIN Link -->
+                    <div class="text-center">
+                        <a href="{% url 'pin_settings' %}" class="text-sm text-purple-heart-800 hover:text-purple-heart-900 font-semibold">
+                            Forgot your PIN?
+                        </a>
+                    </div>
+
+                    <!-- Logout Option -->
+                    <div class="text-center pt-4 border-t border-shark-100">
+                        <p class="text-sm text-shark-600 mb-2">Not you?</p>
+                        <a href="{% url 'logout' %}" class="text-sm text-danger hover:text-red-700 font-semibold">
+                            <i class="ph ph-sign-out mr-1"></i>Logout
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePinVisibility() {
+            const pinInput = document.getElementById('pin');
+            const eyeIcon = document.getElementById('pin-eye-icon');
+            
+            if (pinInput.type === 'password') {
+                pinInput.type = 'text';
+                eyeIcon.classList.remove('ph-eye');
+                eyeIcon.classList.add('ph-eye-slash');
+            } else {
+                pinInput.type = 'password';
+                eyeIcon.classList.remove('ph-eye-slash');
+                eyeIcon.classList.add('ph-eye');
+            }
+        }
+
+        // Auto-focus on PIN input
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('pin').focus();
+        });
+
+        // Only allow numeric input
+        document.getElementById('pin').addEventListener('keypress', function(e) {
+            if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                e.preventDefault();
+            }
+        });
+    </script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'src/js/script.js' %}"></script>
+</body>
+
+</html>

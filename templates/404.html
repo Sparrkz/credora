@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Page Not Found | Corion</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link href="{% static 'src/css/output.css' %}" rel="stylesheet" />
+    <link href="{% static 'src/images/favicon.png' %}" rel="icon" />
+    <style>
+        body { font-family: 'Urbanist', system-ui, sans-serif; }
+        .fade-in { animation: fade .6s ease-in-out; }
+        @keyframes fade { from {opacity:0; transform:translateY(8px);} to {opacity:1; transform:translateY(0);} }
+    </style>
+</head>
+<body class="min-h-screen bg-shark-50 flex items-center justify-center px-4">
+    <div class="max-w-md w-full bg-white border border-shark-200 rounded-lg shadow-sm p-8 fade-in">
+        <div class="flex flex-col items-center text-center gap-4 mb-4">
+            <img src="{% static 'src/images/logo.png' %}" alt="Corion" class="h-14 w-auto" />
+            <h1 class="text-2xl font-bold text-shark-900">Page Not Found (404)</h1>
+            <p class="text-shark-600 text-sm">We couldn't find <code class="bg-purple-heart-50 text-purple-heart-800 px-2 py-1 rounded">{{ requested_path }}</code>.</p>
+        </div>
+        <div class="bg-purple-heart-50 border-l-4 border-purple-heart-600 rounded px-4 py-3 text-purple-heart-900 text-sm mb-6">
+            The address may be outdated (legacy .html link) or mistyped. We'll redirect you shortly.
+        </div>
+        <div class="flex flex-col gap-3">
+            <a href="{% url 'user_dashboard' %}" class="w-full h-[48px] flex items-center justify-center bg-purple-heart-800 text-white rounded hover:bg-purple-heart-900 transition">Go to Dashboard</a>
+            <a href="{% url 'transaction_history' %}" class="w-full h-[48px] flex items-center justify-center bg-shark-900 text-white rounded hover:bg-shark-800 transition">View Transactions</a>
+        </div>
+        <p class="mt-6 text-xs text-shark-500">Automatic redirect in <span id="countdown">8</span> seconds.</p>
+    </div>
+    <script>
+        (function(){
+            const target = '{% url 'user_dashboard' %}';
+            let remaining = 8;
+            const el = document.getElementById('countdown');
+            const tick = () => {
+                remaining -= 1;
+                if (remaining <= 0) { window.location.href = target; return; }
+                if (el) el.textContent = remaining;
+                setTimeout(tick, 1000);
+            };
+            setTimeout(tick, 1000);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+{% extends "user/base.html" %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+
+<main class="flex-1 overflow-y-auto hide-scrollbar">
+            <div>
+                <div class="flex  items-center justify-between md:px-6 sm:px-4 md:py-4 sm:py-2">
+                    <a href="javascript:history.back()"
+                       class="flex items-center w-fit md:gap-4 sm:gap-2">
+                        <i class="ph ph-arrow-left text-xl"></i>
+                        <h5 class="text-shark-800 cursor-pointer">Notifications</h5>
+                    </a>
+                    <a href="{% url 'mark_all_notifications_read' %}"
+                          class="mark-all-as-read text-purple-heart-800 sm:text-sm sm:block md:hidden mr-1 cursor-pointer">Mark all as read</a>
+                </div>
+
+                <div class="h-full flex md:px-6 sm:px-4 mb-12">
+                    <div class="h-full w-full flex justify-start md:bg-shark-50 rounded-lg md:px-20 md:py-12">
+                        <!-- Notification Items -->
+                        <div id="notificationsContainer" class="max-w-2xl w-full bg-white border rounded-lg">
+                            <div class="flex items-center justify-between border-b md:p-8 sm:p-4">
+                                <!-- Tabs for Filtering (All, Credit, Debit) -->
+                                <div class="flex items-center gap-4">
+                                    <button class="tab-filter sm:text-base md:text-base px-4 bg-shark-950 text-white md:h-[48px] sm:h-[44px] sm:min-w-[80px] md:w-[120px] rounded whitespace-nowrap"
+                                            data-filter="all"><span class="font-bold">{{ total_count }}</span> All
+                                    </button>
+                                    <button class="tab-filter sm:text-base md:text-base px-4 bg-shark-50 text-shark-950 md:h-[48px] sm:h-[44px] sm:min-w-[80px] md:w-[120px] rounded whitespace-nowrap"
+                                            data-filter="read"><span class="font-bold">{{ read_count }}</span> Read
+                                    </button>
+                                    <button class="tab-filter sm:text-base md:text-base px-4 bg-shark-50 text-shark-950 md:h-[48px] sm:h-[44px] sm:min-w-[80px] md:w-[120px] rounded whitespace-nowrap"
+                                            data-filter="unread"><span class="font-bold">{{ unread_count }}</span>
+                                        Unread
+                                    </button>
+                                </div>
+
+                                <a href="{% url 'mark_all_notifications_read' %}"
+                                      class="mark-all-as-read   text-purple-heart-800 text-base sm:hidden md:block cursor-pointer">Mark all as read</a>
+                            </div>
+
+                            <!-- Notification Items -->
+                            <div class="flex flex-col divide-y divide-shark-100">
+                                {% for notification in notifications %}
+                                    <div data-id="{{ notification.id }}"
+                                         class="notification-item relative w-full flex gap-4 md:px-8 sm:px-4 sm:py-4 md:py-6 cursor-pointer"
+                                         data-status="{% if notification.is_read %}read{% else %}unread{% endif %}">
+                                        <div class="grow-0">
+                                            <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-heart-100 rounded-full">
+                                                <i class="ph-fill {{ notification.get_icon }} text-purple-heart-800 md:text-xl sm:text-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="grow flex flex-col gap-1">
+                                            <span class="font-bold">{{ notification.title }}</span>
+                                            <span class="md:text-base sm:text-sm text-shark-600">{{ notification.message }}</span>
+                                            <div class="flex justify-between">
+                                                <span class="md:text-sm sm:text-xs text-shark-400">{{ notification.created_at|timesince }} ago</span>
+                                                {% if not notification.is_read %}
+                                                <a href="{% url 'mark_notification_read' notification.id %}" class="mark-as-read sm:text-sm md:text-base  text-success cursor-pointer">Mark as read</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        {% if not notification.is_read %}
+                                        <span class="indicator absolute top-4 sm:right-4 md:right-8 h-2 w-2 rounded-full bg-purple-heart-800 inline"></span>
+                                        {% endif %}
+                                    </div>
+                                {% empty %}
+                                    <div class="w-full flex flex-col items-center justify-center py-12">
+                                        <i class="ph ph-bell-slash text-6xl text-shark-300 mb-4"></i>
+                                        <p class="text-shark-500 text-lg">No notifications yet</p>
+                                        <p class="text-shark-400 text-sm">You'll see notifications here when there's activity on your account</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+
+                            <!-- Custom Pagination for Notification List -->
+                            <div class="w-full flex md:flex-row sm:flex-col items-center justify-between gap-4 border-t border-shark-50 p-6">
+                                <div class="flex items-center sm:justify-center md:justify-start md:gap-6 sm:gap-4 w-full">
+                            <span id="notificationPaginationInfo"
+                                  class="sm:w-fit md:w-fit flex-center p-4 h-[48px] bg-shark-50 rounded text-base text-purple-heart-800 whitespace-nowrap">2 out of 20 Customers</span>
+                                    <div id="notificationLengthDropdown" class="flex items-center">
+                                        <label for="notificationLengthSelect"
+                                               class="mr-2 text-sm text-gray-500 sr-only">Show</label>
+                                        <div class="relative sm:h-[48px] w-[120px] ">
+                                            <select id="notificationLengthSelect" class="input-default">
+                                                <option value="5">Show 5</option>
+                                                <option value="10">Show 10</option>
+                                                <option value="20">Show 20</option>
+                                                <option value="50">Show 50</option>
+                                                <option value="100">Show 100</option>
+                                            </select>
+                                            <span class="absolute end-0 top-1/2 -translate-y-1/2 text-shark-500 grid w-12 place-content-center pointer-events-none"><i
+                                                        class="ph ph-caret-down"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="notificationPagination" class="flex items-center gap-2"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--  Footer  -->
+                <div class="md:px-16 sm:px-4 py-4 w-full flex items-center justify-between  border-t border-shark-200">
+    <p>Need Help? <a href="#">Contact Customer Care</a></p>
+    <i class="ph-fill ph-headset"></i>
+</div>
+            </div>
+        </main>
+
+    </div>
+</div>
+{% endblock %}

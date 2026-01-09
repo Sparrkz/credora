@@ -1,0 +1,112 @@
+{% extends "user/base.html" %}
+{% block title %}Loans and Mortgages{% endblock %}
+{% block content %}   
+<main class="flex-1 overflow-y-auto hide-scrollbar md:px-6 sm:px-4 md:py-4 sm:py-2">
+            <a class="flex items-center w-fit md:gap-4 sm:gap-2 mb-4"
+               href="dashboard.html">
+                <i class="ph ph-arrow-left text-xl"></i>
+                <h5 class="text-shark-800 cursor-pointer">My Loans & Mortgages</h5>
+            </a>
+
+            <!-- Loan Table -->
+            <div class="min-h-svh">
+                <div class="md:px-8 sm:px-4 md:py-10 sm:py-6 border  rounded-lg overflow-x-hidden">
+                    <!-- Table Search Input -->
+                    <div class="mb-8  flex items-center gap-4">
+                        <div class="relative sm:h-[48px] w-full">
+                            <label for="loanSearchBox"></label>
+                            <input class="input-default"
+                                   id="loanSearchBox"
+                                   placeholder="Search Loans "
+                                   type="text"/>
+                            <span class="absolute end-0 top-1/2 -translate-y-1/2 text-shark-500 grid w-12 place-content-center pointer-events-none">
+                    <i class="ph ph-magnifying-glass text-lg"></i></span>
+                        </div>
+                        <a class="flex-center w-fit h-[48px] px-4 bg-purple-heart-500 text-white rounded whitespace-nowrap"
+                           href="apply-loan.html">
+                            <span class="md:block sm:hidden">Get Loan</span>
+                            <i class="ph ph-plus text-lg md:hidden sm:block"></i>
+                        </a>
+                    </div>
+
+                    <!-- Loan Table -->
+                    <table class="min-w-full" id="loanTable">
+                        <thead>
+                        <tr>
+                            <th class="sr-only">ID</th>
+                            <th>Loan Amount</th>
+                            <th>Ref. No</th>
+                            <th>Repayment Period</th>
+                            <th>Interest Rate</th>
+                            <th>Status</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if loans %}
+                            {% for loan in loans %}
+                            <tr class="border-b border-shark-50">
+                                <td class="sr-only">{{ loan.id }}</td>
+                                <td class="py-4 font-semibold">{{ loan.account.currency }} {{ loan.loan_amount|floatformat:2 }}</td>
+                                <td class="py-4 font-mono text-xs">LOAN-{{ loan.id|add:"0" }}</td>
+                                <td class="py-4">{{ loan.term_months }} months</td>
+                                <td class="py-4">{{ loan.interest_rate }}%</td>
+                                <td class="py-4">
+                                    {% if loan.status == 'approved' or loan.status == 'active' %}
+                                        <span class="px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700">{{ loan.status|title }}</span>
+                                    {% elif loan.status == 'pending' %}
+                                        <span class="px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-700">Pending</span>
+                                    {% elif loan.status == 'rejected' or loan.status == 'closed' %}
+                                        <span class="px-2 py-1 rounded text-xs font-medium bg-red-100 text-red-700">{{ loan.status|title }}</span>
+                                    {% else %}
+                                        <span class="px-2 py-1 rounded text-xs font-medium bg-shark-100 text-shark-700">{{ loan.status|title }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="py-4 text-end">
+                                    <a href="{% url 'loan_receipt' loan.id %}" class="text-purple-heart-800 hover:underline">View Receipt</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="py-6 text-center text-shark-500">No loans found.</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+
+                    <!-- Custom Pagination for Loan Table -->
+                    <div class="w-full flex md:flex-row sm:flex-col items-center justify-between gap-4 border-t border-shark-50 pt-6 ">
+                        <div class="flex items-center sm:justify-center md:justify-start md:gap-6 sm:gap-4 w-full">
+                            <span class="sm:w-fit md:w-fit flex-center p-4 h-[48px] bg-shark-50 rounded text-base text-purple-heart-800 whitespace-nowrap"
+                                  id="loanPaginationInfo">2 out of 20 Customers</span>
+                            <div class="flex items-center" id="loanLengthDropdown">
+                                <label class="mr-2 text-sm text-gray-500 sr-only"
+                                       for="loanLengthSelect">Show</label>
+                                <div class="relative sm:h-[48px] w-[120px] ">
+                                    <select class="input-default" id="loanLengthSelect">
+                                        <!-- Options will be dynamically populated -->
+                                    </select>
+                                    <span class="absolute end-0 top-1/2 -translate-y-1/2 text-shark-500 grid w-12 place-content-center pointer-events-none"><i
+                                                class="ph ph-caret-down"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2" id="loanPagination"></div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!--  Footer  -->
+            <div class="md:px-16 sm:px-4 py-4 w-full flex items-center justify-between  border-t border-shark-200">
+    <p>Need Help? <a href="#">Contact Customer Care</a></p>
+    <i class="ph-fill ph-headset"></i>
+</div>
+        </main>
+
+    </div>
+</div>
+{% endblock %}

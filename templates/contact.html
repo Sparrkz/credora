@@ -1,0 +1,786 @@
+
+
+<!-- Header -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="theme-color" content="#5a03d5" />
+    <meta content="Welcome to Corion, your trusted partner in secure and innovative online banking. Manage your finances with ease, track your transactions, and enjoy unparalleled banking services designed to meet your needs. Join us today and experience the future of banking."
+        name="description">
+    <meta content="Corion, online banking, secure banking, innovative banking, financial management, banking solutions, digital banking, secure transactions"
+        name="keywords">
+    <meta content="Corion" name="author">
+    <meta content="index, follow" name="robots">
+    <link href="{% static 'src/images/favicon.png' %}" rel="icon">
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+
+    <meta property="og:title" content="Why Choose Us | Corion – Secure and Reliable Banking Solutions">
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/src/images/logo.png">
+    <meta property="og:url" content="#">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="/src/images/logo.png">
+
+    <title>Why Choose Us | Corion – Secure and Reliable Banking Solutions</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500&family=Urbanist:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Phosphorus Icon Regular Weight -->
+    <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet">
+
+    <!-- Phosphorus Icon Fill Weight -->
+    <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet">
+
+    <!--  Include Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- Loader CSS -->
+    <link href="{% static 'src/css/loader.css' %}" rel="stylesheet">
+
+
+    <!-- Tailwind CSS -->
+    <link href="{% static 'src/css/output.css' %}" rel="stylesheet">
+</head>
+<body>
+    <!-- Loader -->
+    <div id="preloader-container">
+    <div class="dot-spinner">
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+    </div>
+<script>
+// Fallback to hide preloader if jQuery doesn't load
+window.addEventListener('load', function() {
+    var preloader = document.getElementById('preloader-container');
+    if (preloader) {
+        setTimeout(function() {
+            preloader.style.display = 'none';
+        }, 500);
+    }
+});
+</script>
+
+</div>
+
+    <div class="overflow-x-hidden container-fluid">
+        <!-- Mobile Navbar -->
+        <!-- Mobile Navbar -->
+<div class="relative z-[19999] md:hidden">
+    <!-- Navbar with the Menu Button -->
+    <header class="w-full p-4 flex-between bg-transparent  border-b border-shark-100">
+        <a href="{% url 'home' %}"><img alt="Corion Logo" class="h-10 w-auto" src="{% static 'src/images/logo.png' %}"></a>
+        <div class="flex gap-4">
+            <div class="relative nav-dropdown-container z-40">
+                <div class="nav-dropdown-toggle  w-[44px] h-[44px] flex-center border border-shark-200 rounded-full text-purple-heart-800">
+                    <i class="ph ph-globe text-xl text-purple-heart-500"></i>
+                </div>
+
+                <div class="absolute  nav-dropdown-content hidden bg-white rounded-sm border border-shark-200 sm:min-w-[200px] min-h-[100px] px-4 py-6">
+                    <div class="nav-dropdown-arrow"></div>
+                    <!-- Google Translate Element -->
+                    <div id="google_translate_mobile" class="flex"></div>
+                </div>
+            </div>
+            <button id="openNavbar"
+                class="w-[44px] h-[44px] flex-center border border-shark-200 rounded-full text-purple-heart-800">
+                <i class="ph ph-squares-four text-xl"></i> <!-- Menu Icon -->
+            </button>
+        </div>
+    </header>
+    <!-- Navbar Menu -->
+    <div id="navbar" class="fixed inset-0 h-svh w-svw bg-white shadow-lg hidden">
+        <div class="h-full w-full  flex flex-col">
+            <div class="grow-0 flex-between p-4">
+                <a href="{% url 'home' %}">
+                    <img alt="Corion Logo" class="h-[50px] " src="{% static 'src/images/logo.png' %}">
+                </a>
+                <button id="closeNavbar"
+                    class="w-[44px] h-[44px] flex-center border border-shark-200 rounded-full text-purple-heart-800">
+                    <i class="ph ph-x text-xl"></i> <!-- Close Icon -->
+                </button>
+            </div>
+            <nav class="grow h-full overflow-y-auto hide-scrollbar" aria-label="Navbar On Mobile Devices">
+                <ul class="mt-4">
+                    <li class="flex items-center px-4 py-3">
+                        <i class="ph ph-house text-xl text-purple-heart-800 mr-2"></i> <!-- Home Icon -->
+                        <a class="text-base w-full" href="{% url 'home' %}">Home</a>
+                    </li>
+
+                    <li class="flex items-center px-4 py-3">
+                        <i class="ph ph-question text-xl text-purple-heart-800 mr-2"></i> <!-- Home Icon -->
+                        <a class="text-base w-full" href="{% url 'about' %}">About</a>
+                    </li>
+
+                    <li class="flex items-center px-4 py-3">
+                        <i class="ph ph-briefcase text-xl text-purple-heart-800 mr-2"></i> <!-- Home Icon -->
+                        <a class="text-base w-full" href="{% url 'services' %}">Services</a>
+                    </li>
+
+                    <li class="flex items-center px-4 py-3">
+                        <i class="ph ph-phone-call text-xl text-purple-heart-800 mr-2"></i> <!-- Home Icon -->
+                        <a class="text-base w-full" href="{% url 'contact' %}">Contact</a>
+                    </li>
+
+                    <li class="flex items-center px-4 py-3">
+                        <i class="ph ph-shield-check text-xl text-purple-heart-800 mr-2"></i> <!-- Home Icon -->
+                        <a class="text-base w-full" href="{% url 'terms' %}">Terms & Conditions</a>
+                    </li>
+
+                </ul>
+            </nav>
+            <div class="grow-0 p-4">
+                <a href="{% url 'register' %}"
+                    class="flex-center w-full h-[48px] mb-3 bg-purple-heart-500 text-white rounded-md">Get
+                    Started</a>
+                <a href="{% url 'login' %}" class="flex-center w-full h-[48px] bg-shark-950 text-white rounded-md">Log
+                    In</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Laptop Navbar -->
+<div class="md:block sm:hidden container">
+    <nav class="flex justify-between items-center  py-4 bg-transparent border-b border-purple-heart-100"
+        aria-label="Navbar On Laptop Devices">
+        <!-- Logo -->
+        <a href="{% url 'home' %}">
+            <img src="{% static 'src/images/logo.png' %}" alt="Corion Logo" class="w-auto" style="height: 40px;"> <!--previous height: h-[50px]-->
+        </a>
+
+        <div class="flex space-x-14">
+            <!-- Navigation Links -->
+            <div class="flex items-center space-x-8">
+                <a href="{% url 'home' %}" class="flex items-center text-shark-950 hover:text-purple-800">
+                    <i class="ph ph-house text-xl text-purple-heart-800 mr-2"></i>
+                    Home
+                </a>
+                <a href="{% url 'about' %}" class="flex items-center text-shark-950 hover:text-purple-800">
+                    <i class="ph ph-question text-xl text-purple-heart-800 mr-2"></i>
+                    About
+                </a>
+                <a href="{% url 'services' %}" class="flex items-center text-shark-950 hover:text-purple-800">
+                    <i class="ph ph-briefcase text-xl text-purple-heart-800 mr-2"></i>
+                    Services
+                </a>
+                <a href="{% url 'contact' %}" class="flex items-center text-shark-950 hover:text-purple-800">
+                    <i class="ph ph-phone-call text-xl text-purple-heart-800 mr-2"></i>
+                    Contact
+                </a>
+
+                <a href="{% url 'terms' %}" class="flex items-center text-shark-950 hover:text-purple-800">
+                    <i class="ph ph-shield-check text-xl text-purple-heart-800 mr-2"></i>
+                    Terms & Conditions
+                </a>
+            </div>
+
+            <!-- Sign Up Button -->
+            <div class="flex items-center gap-8">
+                <div class="relative nav-dropdown-container z-40">
+                    <div class="nav-dropdown-toggle  flex-center flex-shrink-0 cursor-pointer  h-[48px] w-[48px] bg-purple-heart-200 rounded-full text-purple-heart-800">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-globe text-xl text-purple-heart-500"></i>
+                        </div>
+                    </div>
+
+                    <div class="absolute  nav-dropdown-content hidden bg-white rounded-sm border border-shark-200 sm:min-w-[200px] min-h-[100px] px-4 py-6">
+                        <div class="nav-dropdown-arrow"></div>
+                        <!-- Google Translate Element -->
+                        <div id="google_translate_desktop" class="flex"></div>
+                    </div>
+                </div>
+                <a href="{% url 'register' %}"
+                    class="w-[150px] sm:h-[48px] flex-center bg-purple-heart-800 text-white rounded-md ">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </nav>
+
+</div>
+        <!-- Hero Section -->
+        <div class="relative bg-cover bg-center bg-purple-heart-900/50 md:h-[400px] sm:h-[200px] w-full pb-6 border-t-2  border-purple-heart-500" style="background-image: url('{% static 'src/images/contact/contact-hero.jpg' %}');">
+            <div class="absolute inset-0 "></div>
+        </div>
+
+        <!-- Why Choose Us -->
+        <div class="bg-white sm:pt-10 md:py-16">
+            <div class="container flex sm:flex-col md:flex-row justify-between sm:px-4 md:px-0">
+                <div class="max-w-md">
+                    <!-- Level 1 Heading (Short) -->
+                    <h6 class="text-sm text-purple-heart-500 uppercase tracking-wide">Contact Us</h6>
+
+                    <!-- Level 2 Heading (Middle - Main Focus) -->
+                    <h3 class="text-2xl font-bold text-gray-900 mt-2">We're Here to Help</h3>
+
+                    <!-- Level 3 Heading (Before Paragraph) -->
+                    <h5 class="text-lg font-medium text-gray-700 mt-4">Reach Out Anytime, Anywhere</h5>
+
+                    <!-- Paragraph -->
+                    <p class="mt-4 text-gray-600">
+                        At Corion, we value your questions and feedback. Whether you need assistance with your account,
+                        have a query about our services, or just want to learn more, our team is ready to assist you.
+                    </p>
+
+                    <!-- Decorative Line -->
+                    <div class="h-[2px] w-[52px] my-8 bg-purple-heart-500 rounded-full"></div>
+
+                    <!-- Call-to-Action Button -->
+                    <a href="mailto:Marsvesteam@gmail.com" class="button-primary mt-10 max-w-[250px] flex-center gap-2">
+                        Contact Support <i class="ph ph-envelope-simple"></i>
+                    </a>
+                </div>
+
+
+                <!-- Image Section -->
+                <div class="sm:my-8 md:my-0 bg-purple-heart-50 md:px-10 md:py-16  sm:px-4 sm:py-10 rounded-md">
+                    <div>
+                        <!-- Email Section -->
+                        <div class="flex sm:flex-col md:flex-row sm:items-start md:items-center sm:space-y-2 md:space-y-0 sm:space-x-0 md:space-x-4 mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 bg-purple-heart-100 rounded-md">
+                                <i class="ph ph-envelope text-purple-heart-800 text-xl"></i>
+                            </div>
+                            <div class="hidden sm:hidden md:block h-[48px] w-[1px] bg-shark-200"></div>
+                            <div class="flex flex-col">
+                                <span class="text-shark-950 text-base">Email</span>
+                                <span class="text-shark-600 text-base">Marsvesteam@gmail.com</span>
+                            </div>
+                        </div>
+
+                        <!-- Phone Section -->
+                        <div class="flex sm:flex-col md:flex-row sm:items-start md:items-center sm:space-y-2 md:space-y-0 sm:space-x-0 md:space-x-4 mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 bg-purple-heart-100 rounded-md">
+                                <i class="ph ph-phone text-purple-heart-800 text-xl"></i>
+                            </div>
+                            <div class="hidden sm:hidden md:block h-[48px] w-[1px] bg-shark-200"></div>
+                            <div class="flex flex-col">
+                                <span class="text-shark-950 text-base">Phone Number</span>
+                                <span class="text-shark-600 text-base">+1 346-822-4132</span>
+                            </div>
+                        </div>
+
+                        <!-- Address Section -->
+                        <div class="flex sm:flex-col md:flex-row sm:items-start md:items-center sm:space-y-2 md:space-y-0 sm:space-x-0 md:space-x-4 mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 bg-purple-heart-100 rounded-md">
+                                <i class="ph ph-map-pin text-purple-heart-800 text-xl"></i>
+                            </div>
+                            <div class="hidden sm:hidden md:block h-[48px] w-[1px] bg-shark-200"></div>
+                            <div class="flex flex-col">
+                                <span class="text-shark-950 text-base">Address</span>
+                                <span class="text-shark-600 text-base">
+                                    55 Timber Hollow Rd, Tomball, TX 77375, USA
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Media Icons -->
+                    <div class="flex justify-start md:justify-start space-x-4 mt-6">
+                        <div class="flex items-center justify-center w-10 h-10 border-2 border-purple-heart-800 text-purple-heart-800 rounded-full">
+                            <i class="ph ph-x"></i>
+                        </div>
+                        <div class="flex items-center justify-center w-10 h-10 border-2 border-purple-heart-800 text-purple-heart-800 rounded-full">
+                            <i class="ph ph-facebook-logo"></i>
+                        </div>
+                        <div class="flex items-center justify-center w-10 h-10 border-2 border-purple-heart-800 text-purple-heart-800 rounded-full">
+                            <i class="ph ph-instagram-logo"></i>
+                        </div>
+                        <div class="flex items-center justify-center w-10 h-10 border-2 border-purple-heart-800 text-purple-heart-800 rounded-full">
+                            <i class="ph ph-youtube-logo"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Mission Section -->
+        <div class="bg-purple-heart-50 sm:pt-10 md:py-16">
+            <div class="grid md:grid-cols-2 sm:grid-cols-1 container mx-auto  ">
+                <!-- Combined Titles and Form -->
+                <div class="max-w-xl w-full bg-white rounded-lg shadow-md sm:p-6 md:p-10">
+                    <div class="text-center md:text-left mb-8">
+                        <!-- Level 1 Heading (Short) -->
+                        <h6 class="text-sm text-purple-heart-500 uppercase tracking-wide">Contact Us</h6>
+                        <!-- Level 2 Heading (Middle - Main Focus) -->
+                        <h3 class="text-2xl font-bold text-gray-900 mt-2">Get in Touch With Us</h3>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="relative">
+                            <!-- Full Name Input -->
+                            <label
+                                for="fullName"
+                                class="relative block text-shark-600 bg-white rounded border focus-within:border-2 shadow-sm focus-within:ring-4 px-2 border-shark-200 focus-within:border-purple-heart-800 focus-within:ring-purple-heart-200">
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    placeholder=" "
+                                    class="peer text-base sm:h-[48px] md:h-[56px] w-full border-none bg-transparent placeholder-transparent focus:outline-none focus:ring-0" />
+                                <span class="pointer-events-none absolute start-3 top-0.5 -translate-y-1/2 bg-white px-2 text-[14px] transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-[14px] peer-focus:text-purple-heart-800">Enter Your Full Name</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <!-- Email Input -->
+                            <label
+                                for="email"
+                                class="relative block text-shark-600 bg-white rounded border focus-within:border-2 shadow-sm focus-within:ring-4 px-2 border-shark-200 focus-within:border-purple-heart-800 focus-within:ring-purple-heart-200">
+                                <input
+                                    type="text"
+                                    id="email"
+                                    placeholder=" "
+                                    class="peer text-base sm:h-[48px] md:h-[56px] w-full border-none bg-transparent placeholder-transparent focus:outline-none focus:ring-0" />
+                                <span class="pointer-events-none absolute start-3 top-0.5 -translate-y-1/2 bg-white px-2 text-[14px] transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-[14px] peer-focus:text-purple-heart-800">Enter Your Email Address</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <!-- Subject Input -->
+                            <label
+                                for="subject"
+                                class="relative block text-shark-600 bg-white rounded border focus-within:border-2 shadow-sm focus-within:ring-4 px-2 border-shark-200 focus-within:border-purple-heart-800 focus-within:ring-purple-heart-200">
+                                <input
+                                    type="text"
+                                    id="subject"
+                                    placeholder=" "
+                                    class="peer text-base sm:h-[48px] md:h-[56px] w-full border-none bg-transparent placeholder-transparent focus:outline-none focus:ring-0" />
+                                <span class="pointer-events-none absolute start-3 top-0.5 -translate-y-1/2 bg-white px-2 text-[14px] transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-[14px] peer-focus:text-purple-heart-800">Enter the Subject of Your Inquiry</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <!-- Message Input -->
+                            <label
+                                for="message"
+                                class="relative block text-shark-600 bg-white rounded border focus-within:border-2 shadow-sm focus-within:ring-4 px-2 border-shark-200 focus-within:border-purple-heart-800 focus-within:ring-purple-heart-200">
+                                <textarea
+                                    id="message"
+                                    placeholder=" "
+                                    class="peer text-base sm:h-[100px] md:h-[120px] w-full border-none bg-transparent placeholder-transparent focus:outline-none focus:ring-0"></textarea>
+                                <span class="pointer-events-none absolute start-3 top-0.5 -translate-y-1/2 bg-white px-2 text-[14px] transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-[14px] peer-focus:text-purple-heart-800">Enter Your Message</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button
+                        class="mt-6 w-full sm:h-[44px] md:h-[56px] flex-center px-6 bg-purple-heart-800 text-white rounded-md">
+                        Send Message
+                    </button>
+                </div>
+
+                <!-- Image Section -->
+                <div class=" relative flex-center sm:-mx-4 md:mx-0 sm:px-4 md:px-0 sm:my-8 md:mt-0">
+                    <img src="{% static 'src/images/contact/telephone.jpg' %}" alt="Corion Services"
+                        class="w-auto md:h-full sm:h-[261px] border-2 border-secondary-500 rounded-md" data-aos="fade-left">
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+        <!-- Success Modal -->
+<div id="success-modal"
+     class="fixed inset-0 flex md:items-start sm:items-center justify-center px-4 md:pt-16 bg-gray-900 bg-opacity-50 z-50 hidden">
+    <div id="success-modal-container"
+         class="flex flex-col justify-center items-start bg-white rounded-lg border border-shark-100 shadow-lg max-w-md w-full pb-6 relative overflow-hidden">
+        <div class="w-full flex items-center justify-between text-lg font-semibold text-purple-heart-800 border-b mb-5 px-6 py-4">
+            <span id="success-modal-title"
+                  class="text-lg font-semibold text-purple-heart-800">Success!</span>
+            <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-heart-100 rounded-full">
+                <i class="ph-fill ph-check-circle text-purple-heart-800 md:text-3xl sm:text-2xl"></i>
+            </div>
+        </div>
+
+        <div class="px-6 w-full">
+            <div id="success-modal-content-container"
+                 class="w-full border-purple-heart-800 flex items-center justify-between gap-2 bg-purple-heart-50/60 border-l-[8px] rounded-xl py-4 px-4">
+                <div class="text-shark-600 text-base font-medium">
+                    <strong id="success-modal-note" class="text-purple-heart-800">Note:</strong>
+                    <span id="success-modal-content"
+                          class="text-purple-heart-950">Operation completed successfully!</span>
+                </div>
+            </div>
+        </div>
+        <div class="px-6">
+            <button id="success-confirm-btn"
+                    class="mt-6 bg-purple-heart-800 hover:bg-purple-heart-900 text-white rounded px-4 py-2">Okay
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Warning Modal -->
+<div id="warning-modal"
+     class="fixed inset-0 flex md:items-start sm:items-center justify-center px-4 md:pt-16 bg-gray-900 bg-opacity-50 z-50 hidden">
+    <div id="warning-modal-container"
+         class="flex flex-col justify-center items-start bg-white rounded-lg border border-shark-100 shadow-lg max-w-md w-full pb-6 relative overflow-hidden">
+        <div class="w-full flex items-center justify-between text-lg font-semibold text-yellow-600 border-b mb-5 px-6 py-4">
+            <span id="warning-modal-title"
+                  class="text-lg font-semibold text-yellow-600">Warning!</span>
+            <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-yellow-100 rounded-full">
+                <i class="ph-fill ph-warning text-yellow-600 md:text-3xl sm:text-2xl"></i>
+            </div>
+        </div>
+
+        <div class="px-6 w-full">
+            <div id="warning-modal-content-container"
+                 class="w-full border-yellow-600 flex items-center justify-between gap-2 bg-yellow-50/60 border-l-[8px] rounded-xl py-4 px-4">
+                <div class="text-shark-600 text-base font-medium">
+                    <strong id="warning-modal-note" class="text-yellow-600">Warning:</strong>
+                    <span id="warning-modal-content"
+                          class="text-yellow-900">There is something that requires your attention.</span>
+                </div>
+            </div>
+        </div>
+        <div class="px-6">
+            <button id="warning-confirm-btn"
+                    class="mt-6 bg-yellow-600 hover:bg-yellow-700 text-white rounded px-4 py-2">Okay
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Error Modal -->
+<div id="error-modal"
+     class="fixed inset-0 flex md:items-start sm:items-center justify-center px-4 md:pt-24 bg-gray-900 bg-opacity-50 z-50 hidden">
+    <div id="error-modal-container"
+         class="flex flex-col justify-center items-start bg-white rounded-lg border border-shark-100 shadow-lg max-w-md w-full  pb-6 relative overflow-hidden">
+        <div class="w-full flex items-center justify-between text-lg font-semibold  text-red-600 border-b mb-5  px-6 py-4 ">
+            <span id="error-modal-title"
+                  class="text-lg font-semibold  text-red-600">Error!</span>
+            <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-red-100 rounded-full">
+                <i class="ph-fill ph-x-circle text-red-600 md:text-3xl sm:text-2xl"></i>
+            </div>
+        </div>
+
+        <div class="px-6 w-full">
+            <div id="error-modal-content-container"
+                 class="w-full border-red-600 flex items-center justify-between gap-2 bg-red-50/60 border-l-[8px] rounded-xl py-4 px-4">
+                <div class="text-shark-600 text-base font-medium">
+                    <strong id="error-modal-note" class="text-red-600">Issue:</strong>
+                    <span id="error-modal-content" class="text-red-900">Something went wrong. Please try again.</span>
+                </div>
+            </div>
+        </div>
+        <div class="px-6">
+            <button id="error-confirm-btn" class="mt-6 bg-red-600 hover:bg-red-700 text-white rounded px-4 py-2">Okay
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div id="delete-modal"
+     class="fixed inset-0 flex  md:items-start sm:items-center justify-center md:pt-24 bg-gray-900 bg-opacity-50 z-50 hidden">
+    <!-- Modal Content -->
+    <div class="modal-content flex flex-col justify-center items-center bg-white rounded-lg shadow-lg max-w-md w-full p-6 py-10 sm:mx-4 relative">
+        <!-- Modal Icon -->
+        <div class="modal-icon">
+            <div class="flex items-center justify-center mb-2 h-[60px] w-[60px] bg-purple-heart-100 rounded-full">
+                <i class="ph-fill ph-check-circle text-3xl text-purple-heart-800"></i>
+            </div>
+        </div>
+        <!-- Modal Title -->
+        <h4 class="modal-title text-xl font-semibold text-shark-950 mb-4"></h4>
+        <!-- Modal Body -->
+        <div class="modal-body text-shark-600 text-base text-center"></div>
+        <!-- Modal Action Buttons -->
+        <div class="modal-actions mt-6 flex justify-center space-x-4">
+
+            <button class="modal-confirm-btn sm:h-[48px]   sm:mt-4 w-[134px] flex-center px-6 bg-purple-heart-800 text-white rounded-md whitespace-nowrap">
+                Yes, Delete
+            </button>
+            <button class="modal-cancel-btn sm:h-[48px]   sm:mt-4 w-[134px] flex-center px-6 bg-shark-800 text-white rounded-md whitespace-nowrap">
+                No, Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Transfer Confirmation Modal -->
+<div id="transfer-modal"
+     class="fixed inset-0 flex md:items-start sm:items-center justify-center px-4 md:pt-16 bg-gray-900 bg-opacity-50 z-50 hidden">
+    <div id="transfer-modal-container"
+         class="flex flex-col justify-center items-start bg-white rounded-lg border border-shark-100 shadow-lg max-w-md w-full pb-6 relative overflow-hidden">
+        <div class="w-full flex items-center justify-between text-lg font-semibold text-purple-heart-800 border-b mb-5 px-6 py-4">
+            <span id="success-modal-title"
+                  class="text-lg font-semibold text-purple-heart-800">Confirm Transfer?</span>
+            <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-heart-100 rounded-full">
+                <i class="ph-fill ph-warning text-purple-heart-800 md:text-3xl sm:text-2xl"></i>
+            </div>
+        </div>
+
+        <div class="px-6 w-full">
+            <div id="success-modal-content-container"
+                 class="w-full border-purple-heart-800 flex items-center justify-between gap-2 bg-purple-heart-50/60 border-l-[8px] rounded-xl py-4 px-4">
+                <div class="text-shark-600 text-base font-medium">
+                    <strong id="success-modal-note" class="text-purple-heart-800">Note:</strong>
+                    <span id="success-modal-content" class="text-purple-heart-950 text-base font-medium">Are you sure you want to proceed with the transfer? Please note, once confirmed, this action is irreversible.</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions px-6 flex items-center gap-4">
+            <button class="modal-confirm-btn mt-6 bg-purple-heart-800 hover:bg-purple-heart-900 text-white rounded px-4 py-2">
+                Yes, Send
+            </button>
+            <button class="modal-cancel-btn mt-6 border  text-purple-heart-800 rounded px-4 py-2">No,
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Transaction Successful Modal -->
+<div id="transaction-success-modal"
+     class="fixed inset-0 flex md:items-start sm:items-center justify-center px-4 md:pt-16 bg-gray-900 bg-opacity-50 z-50 hidden">
+    <div id="transaction-success-modal-container"
+         class="flex flex-col justify-center items-start bg-white rounded-lg border border-shark-100 shadow-lg max-w-md w-full pb-10 pt-10 relative overflow-hidden">
+        <div class="flex flex-col items-center gap-4 w-full border-b border-shark-100 pb-4">
+            <div class="flex-shrink-0 flex items-center justify-center sm:h-[64px] sm:w-[64px] md:h-[70px] md:w-[70px] bg-purple-heart-100 rounded-full">
+                <i class="ph-fill ph-check-circle text-purple-heart-800 md:text-5xl sm:text-4xl"></i>
+            </div>
+            <div class="font-bold text-lg">Transaction Successful</div>
+            <div id="main-amount" class="font-bold text-xl">€ 267</div>
+        </div>
+        <div class="w-full md:px-8 sm:px-6">
+            <p id="amount-1" class="flex items-center justify-between gap-2 text-shark-500">Amount<span
+                        class="text-shark-600">EUR €137.00</span>
+            </p>
+            <p id="receiver-name" class="flex items-center justify-between gap-2 text-shark-500">Receivers Name<span
+                        class="text-shark-600">Mattew James</span>
+            </p>
+            <p id="bank-name" class="flex items-center justify-between gap-2 text-shark-500">Bank Name<span
+                        class="text-shark-600">Global Bank</span>
+            </p>
+            <p id="transfer-status" class="flex items-center justify-between gap-2 text-shark-500">Transfer Status<span
+                        class="text-yellow-600">Pending</span>
+            </p>
+            <p id="account-no" class="flex items-center justify-between gap-2 text-shark-500">Account No<span
+                        class="text-shark-600">48909152626</span>
+            </p>
+
+        </div>
+        <div class="w-full md:px-8 sm:px-6">
+            <a id="transaction-link" href="#"
+               class="sm:h-[44px] md:mt-8  sm:mt-6 md:h-[56px] w-full flex-center px-6 bg-purple-heart-800 text-white rounded-md">
+                View Transaction
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Cancel Transaction Modal -->
+<div id="cancel-transfer-modal"
+     class="fixed inset-0 flex md:items-start sm:items-center justify-center px-4 md:pt-16 bg-gray-900 bg-opacity-50 z-50 hidden">
+    <div id="cancel-transfer-modal-container"
+         class="flex flex-col justify-center items-start bg-white rounded-lg border border-shark-100 shadow-lg max-w-md w-full pb-6 relative overflow-hidden">
+        <div class="w-full flex items-center justify-between text-lg font-semibold text-yellow-600 border-b mb-5 px-6 py-4">
+            <span id="cancel-transfer-modal-title"
+                  class="text-lg font-semibold text-yellow-600">Cancel Transaction?</span>
+            <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-yellow-100 rounded-full">
+                <i class="ph-fill ph-warning text-yellow-600 md:text-3xl sm:text-2xl"></i>
+            </div>
+        </div>
+
+        <div class="px-6 w-full">
+            <div id="cancel-transfer-modal-content-container"
+                 class="w-full border-yellow-600 flex items-center justify-between gap-2 bg-yellow-50/60 border-l-[8px] rounded-xl py-4 px-4">
+                <div class="text-shark-600 text-base font-medium">
+                    <strong id="cancel-transfer-modal-note" class="text-yellow-600">Note:</strong>
+                    <span id="cancel-transfer-modal-content" class="text-yellow-900">Are you sure you want to cancel this Transaction.If you proceed you won't be able to revert this transaction.</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions px-6 flex items-center gap-4">
+            <button class="modal-confirm-btn mt-6 bg-yellow-600 hover:bg-yellow-900 text-white rounded px-4 py-2">
+                Yes, Proceed
+            </button>
+            <button class="modal-cancel-btn mt-6 border  text-yellow-600 rounded px-4 py-2">No,
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<footer class="container bg-white border-t border-shark-200">
+    <div class="grid grid-cols-12 sm:gap-4 md:gap-6 sm:mt-4 md:mt-8 px-4 md:px-0">
+        <!-- Contact Us Section -->
+        <div class="md:col-span-4 sm:col-span-12">
+            <div class="mb-8">
+                <h5 class="text-black">Contact Us</h5>
+                <div class="flex items-start space-x-4 mb-4">
+                    <div class="flex items-center justify-center w-12 h-12 bg-purple-heart-50  rounded-md">
+                        <i class="ph ph-envelope text-purple-heart-800 text-xl"></i>
+                    </div>
+                    <div class="h-[48px] w-[1px] bg-shark-200"></div>
+                    <div class="flex flex-col">
+                        <span class="text-shark-950 text-base">Email</span>
+                        <span class="text-shark-600 md:text-base sm:text-base">Marsvesteam@gmail.com</span>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4 mb-4">
+                    <div class="flex items-center justify-center w-12 h-12 bg-purple-heart-50  rounded-md">
+                        <i class="ph ph-phone text-purple-heart-800 text-xl"></i>
+                    </div>
+                    <div class="h-[48px] w-[1px] bg-shark-200"></div>
+                    <div class="flex flex-col">
+                        <span class="text-shark-950 text-base">Phone Number</span>
+                        <span class="text-shark-600 md:text-base sm:text-base">+1 346-822-4132</span>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4 mb-4">
+                    <div>
+                        <div class="flex items-center justify-center w-12 h-12 bg-purple-heart-50  rounded-md">
+                            <i class="ph ph-map-pin text-purple-heart-800 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="h-[48px] w-[1px] bg-shark-200"></div>
+                    <div class="flex flex-col">
+                        <span class="text-shark-950 text-base">Address</span>
+                        <span class="text-shark-600 md:text-base sm:text-ase">55 Timber Hollow Rd, Tomball, TX 77375, USA</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media Icons -->
+            <div class="flex space-x-4 mb-8">
+                <div class="flex items-center justify-center w-10 h-10 border-2 border-purple-heart-800 text-purple-heart-800 rounded-full">
+                    <i class="ph ph-x"></i>
+                </div>
+                <div class="flex items-center justify-center w-10 h-10 border-2 border-purple-heart-800 text-purple-heart-800 rounded-full">
+                    <i class="ph ph-facebook-logo"></i>
+                </div>
+                <div class="flex items-center justify-center w-10 h-10 border-2 border-purple-heart-800 text-purple-heart-800 rounded-full">
+                    <i class="ph ph-instagram-logo"></i>
+                </div>
+                <div class="flex items-center justify-center w-10 h-10 border-2 border-purple-heart-800 text-purple-heart-800 rounded-full">
+                    <i class="ph ph-youtube-logo"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="md:col-span-4 sm:col-span-12 mb-8 md:mt-0 mr-8">
+            <h5 class="text-black">Newsletter</h5>
+            <p class="text-shark-600 mb-4 sm:text-base md:text-base">Subscribe to our newsletter to receive the
+                latest
+                updates,
+                exclusive
+                content,
+                and special offers directly in your inbox.</p>
+            <div class="flex space-x-2">
+                <input class="p-2 border border-shark-200 rounded w-full" placeholder="Enter Your Email"
+                    type="email">
+                <button class="bg-purple-heart-800 text-white px-4 py-2 rounded">Subscribe</button>
+            </div>
+        </div>
+
+        <!-- Quick Links Section -->
+        <div class="md:col-span-4 sm:col-span-12 mb-8">
+            <h5 class="text-black">Quick Links</h5>
+            <div class="grid grid-cols-2 gap-y-2 text-shark-950">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Sign Up</a>
+                <a href="{% url 'contact' %}">Contact</a>
+                <a href="{% url 'terms' %}">Terms & Conditions</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-8 text-center text-shark-800 border-t border-shark-200 py-4">
+        © 2025 Corion All rights reserved
+    </div>
+</footer>    </div>
+
+    <!-- Footer Links -->
+    <!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
+<!-- Google Translate Script -->
+<script type="text/javascript">
+    let translateElement;
+
+    function googleTranslateElementInit() {
+        // Initial setup based on the current screen size
+        initGoogleTranslateWidget();
+
+        // Reinitialize on screen size change
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                initGoogleTranslateWidget();
+            }, 300); // Small debounce to prevent excessive reinitialization
+        });
+    }
+
+    function initGoogleTranslateWidget() {
+        const isDesktop = window.innerWidth >= 768;
+        const containerId = isDesktop ? 'google_translate_desktop' : 'google_translate_mobile';
+
+        // Destroy any existing widget
+        const existingWidget = document.getElementById(containerId).querySelector('.skiptranslate');
+        if (existingWidget) existingWidget.remove();
+
+        // Reinitialize Google Translate in the appropriate container
+        new google.translate.TranslateElement(
+            {
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
+            },
+            containerId
+        );
+    }
+</script>
+
+<script type="text/javascript"
+        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Floating UI -->
+<script type="module" src="{% static 'src/js/floating-ui.js' %}"></script>
+
+<!-- Swiper -->
+<script src="{% static 'src/js/swiper.js' %}"></script>
+
+
+<!-- Script -->
+<script src="{% static 'src/js/script.js' %}"></script>
+</body>
+
+</html>`

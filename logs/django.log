@@ -1,0 +1,12 @@
+INFO 2025-11-15 01:58:21,082 autoreload Watching for file changes with StatReloader
+INFO 2025-11-15 01:59:12,056 autoreload C:\Users\EMINS\Desktop\work\Corion\Corion_bank\transactions\serializers.py changed, reloading.
+INFO 2025-11-15 01:59:14,180 autoreload Watching for file changes with StatReloader
+INFO 2025-11-15 02:00:44,982 autoreload Watching for file changes with StatReloader
+WARNING 2025-11-15 02:00:48,676 log Not Found: /
+WARNING 2025-11-15 02:00:48,678 basehttp "GET / HTTP/1.1" 404 17253
+INFO 2025-11-15 02:00:48,763 basehttp "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 200 30101
+INFO 2025-11-15 02:00:48,797 basehttp "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 200 14879
+INFO 2025-11-15 02:00:48,814 basehttp "GET /static/debug_toolbar/css/print.css HTTP/1.1" 200 43
+INFO 2025-11-15 02:00:48,863 basehttp "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 200 4700
+WARNING 2025-11-15 02:00:48,934 log Not Found: /favicon.ico
+INFO 2025-11-15 02:00:48,935 basehttp - Broken pipe from ('127.0.0.1', 57024)
