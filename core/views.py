@@ -13,6 +13,13 @@ import uuid
 from django.utils import timezone
 from django.http import JsonResponse
 from django.http import HttpResponseNotFound
+import random
+import string
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.conf import settings
 
 # Public pages
 def home(request):
@@ -570,15 +577,112 @@ def wire_transfer(request):
     return render(request, 'user/wire-transfer.html', context)
 
 @login_required
+@ensure_csrf_cookie
 def secure_transfer(request):
     """Secure transfer view"""
     try:
         customer = Customer.objects.get(user=request.user)
         accounts = Account.objects.filter(customer=customer, status='active')
+
+        # Generate and send IMT code
+        imt_code = ''.join(random.choices(string.digits, k=6))
+        request.session['imt_code'] = imt_code
+        
+        # Send email
+        html_message = render_to_string('user/email/imt_code_email.html', {'imt_code': imt_code, 'user': request.user})
+        send_mail(
+            'Your IMT Code for Secure Transfer',
+            f'Your IMT code is {imt_code}',
+            settings.DEFAULT_FROM_EMAIL,
+            [request.user.email],
+            html_message=html_message,
+            fail_silently=False,
+        )
+
     except Customer.DoesNotExist:
         accounts = []
     
     return render(request, 'user/secure-transfer.html', {'accounts': accounts})
+
+@require_POST
+@login_required
+def verify_imt_code(request):
+    """Verify the IMT code and process the wire transfer."""
+    user_code = request.POST.get('code')
+    imt_code = request.session.get('imt_code')
+
+    if user_code == imt_code:
+        # Code is correct, clear it from session
+        request.session.pop('imt_code', None)
+        
+        pending_transfer = request.session.get('pending_wire_transfer')
+        if not pending_transfer:
+            return JsonResponse({'status': 'error', 'message': 'No pending transfer found.'}, status=400)
+
+        try:
+            customer = Customer.objects.get(user=request.user)
+            accounts = Account.objects.filter(customer=customer, status='active')
+            if not accounts:
+                raise ValueError('No active account available for transfer.')
+            
+            account = accounts[0]
+            amount = Decimal(pending_transfer['amount'])
+
+            if amount > account.balance:
+                raise ValueError('Insufficient balance.')
+
+            # Create the transaction
+            balance_before = account.balance
+            account.balance -= amount
+            balance_after = account.balance
+
+            description = (
+                f"Wire transfer to {pending_transfer['beneficiary_account_name']} "
+                f"({pending_transfer['beneficiary_bank_name']}) - "
+                f"Purpose: {pending_transfer['purpose']}"
+            )
+
+            txn = Transaction.objects.create(
+                account=account,
+                transaction_type='transfer',
+                amount=amount,
+                balance_before=balance_before,
+                balance_after=balance_after,
+                status='completed',
+                description=description,
+                reference_number=f'TRF-{uuid.uuid4().hex[:12].upper()}',
+                recipient_account=pending_transfer['beneficiary_account_number'],
+            )
+            
+            account.save()
+
+            # Clear the pending transfer from the session
+            del request.session['pending_wire_transfer']
+            
+            # Create notification for transfer
+            from notifications.models import Notification
+            Notification.create_notification(
+                user=request.user,
+                notification_type='transaction_completed',
+                title='Transfer Successful',
+                message=f'{account.currency} {amount} transfer to {pending_transfer["beneficiary_account_name"]} has been completed.',
+                metadata={
+                    'reference': txn.reference_number,
+                    'amount': str(amount),
+                    'recipient': pending_transfer["beneficiary_account_name"],
+                    'bank': pending_transfer["beneficiary_bank_name"]
+                }
+            )
+
+            return JsonResponse({'status': 'success', 'message': 'Verification successful. Transfer completed.'})
+
+        except (Customer.DoesNotExist, ValueError) as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': 'An unexpected error occurred.'}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid IMT code.'}, status=400)
+
 
 @login_required
 def my_deposits(request):

@@ -393,7 +393,7 @@ window.addEventListener('load', function() {
                     {% if history %}
                         {% for item in history %}
                         <tr class="border-b border-shark-50" data-direction="{{ item.direction }}" data-kind="{{ item.kind }}" data-type="{{ item.type|lower }}">
-                            <td class="sr-only">{{ item.id }}</td>
+                            <td class="sr-only">{{ item.id|default:forloop.counter }}</td>
                             <td class="py-4">
                                 <div class="flex items-center gap-2">
                                     <span class="font-medium text-shark-900">{{ item.label }}</span>
@@ -434,8 +434,14 @@ window.addEventListener('load', function() {
                         </tr>
                         {% endfor %}
                     {% else %}
-                        <tr>
-                            <td colspan="6" class="py-6 text-center text-shark-500">No transactions yet.</td>
+                        <!-- DataTables will handle the empty state, but we provide an empty row to avoid parameter errors -->
+                        <tr class="hidden">
+                            <td class="sr-only">0</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     {% endif %}
                     </tbody>

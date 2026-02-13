@@ -24,6 +24,7 @@ urlpatterns = [
     path('local-transfer/', views.local_transfer, name='local_transfer'),
     path('wire-transfer/', views.wire_transfer, name='wire_transfer'),
     path('secure-transfer/', views.secure_transfer, name='secure_transfer'),
+    path('verify-imt-code/', views.verify_imt_code, name='verify_imt_code'),
     path('my-deposits/', views.my_deposits, name='my_deposits'),
     path('receipt/<str:reference>/', views.deposit_receipt, name='deposit_receipt'),
     path('my-loans/', views.my_loans, name='my_loans'),

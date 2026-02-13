@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your IMT Code</title>
+</head>
+<body>
+    <p>Hello {{ user.first_name|default:user.username }},</p>
+    <p>Your IMT code for the secure transaction is: <strong>{{ imt_code }}</strong></p>
+    <p>This code is required to complete your transfer.</p>
+    <p>If you did not request this code, please contact our support team immediately.</p>
+    <p>Thank you,<br>The Corion Bank Team</p>
+</body>
+</html>

@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta name="csrf-token" content="CGwfS26y0XkLSL0Ms7CGDE4u2SAENlCpqgip" />
+    <meta name="csrf-token" content="{{ csrf_token }}" />
     <meta name="theme-color" content="#5a03d5" />
     <meta content="Welcome to Corion, your trusted partner in secure and innovative online banking. Manage your finances with ease, track your transactions, and enjoy unparalleled banking services designed to meet your needs. Join us today and experience the future of banking."
         name="description">
@@ -382,7 +382,7 @@ window.addEventListener('load', function() {
                         <div class="mb-4 md:px-8 sm:px-4">
 
                             <p class="text-shark-800">To complete your wire transfer, please enter the required security
-                                codes. These
+                                codes sent to your email. These
                                 codes are
                                 necessary to ensure the safety of your transaction.
                                 <a href="about-code" class="text-purple-heart-800 md:hidden sm:inline">Learn More...</a>
@@ -488,7 +488,7 @@ window.addEventListener('load', function() {
                         <p id="shortDescription" class="text-shark-600 text-base mb-6">
                             The IMT Code facilitates secure and efficient international money transfers, ensuring compliance with global standards and swift transaction processing.                        </p>
 
-                        <a href="about-code" class="text-purple-heart-800">Read More...</a>
+                        <a href="#" class="text-purple-heart-800">Read More...</a>
                         <!-- Divider -->
                         <hr class="border-gray-200 my-6"/>
 
@@ -841,21 +841,53 @@ window.addEventListener('load', function() {
 <script src="{% static 'src/js/transfer.js' %}"></script>
 
 <!-- Custom Code Error Handler -->
+<script src="{% static 'src/js/ajax-helpers.js' %}"></script>
 <script>
 $(document).ready(function() {
     $('.show-code-error').on('click', function() {
-        // Show error modal
-        $('#error-modal').removeClass('hidden');
-        $('#error-modal-container').addClass('animate__animated animate__shakeX');
-        
-        // Set error content
-        $('#error-modal-title').text('Invalid Code!');
-        $('#error-modal-content').text('The security code you entered is incorrect. Please contact support to obtain the correct code.');
-        
-        // Remove animation class after it finishes
-        $('#error-modal-container').one('animationend', function() {
-            $('#error-modal-container').removeClass('animate__animated animate__shakeX');
-        });
+        const code = $('#code').val();
+        const $button = $(this);
+
+        if (!code) {
+            // Show error modal for empty code
+            $('#error-modal').removeClass('hidden');
+            $('#error-modal-container').addClass('animate__animated animate__shakeX');
+            $('#error-modal-title').text('Invalid Input!');
+            $('#error-modal-content').text('Please enter the IMT code.');
+            $('#error-modal-container').one('animationend', function() {
+                $('#error-modal-container').removeClass('animate__animated animate__shakeX');
+            });
+            return;
+        }
+
+        // Disable button and show spinner
+        $button.prop('disabled', true).html('Verifying...');
+
+        verifyImtCode(code, 
+            function(response) {
+                // Success
+                $button.prop('disabled', false).html('Confirm Code');
+                $('#success-modal').removeClass('hidden');
+                $('#success-modal-title').text('Success!');
+                $('#success-modal-content').text(response.message);
+                
+                // Redirect after a short delay
+                setTimeout(function() {
+                    window.location.href = "{% url 'transaction_history' %}";
+                }, 2000);
+            }, 
+            function(response) {
+                // Error
+                $button.prop('disabled', false).html('Confirm Code');
+                $('#error-modal').removeClass('hidden');
+                $('#error-modal-container').addClass('animate__animated animate__shakeX');
+                $('#error-modal-title').text('Verification Failed!');
+                $('#error-modal-content').text(response.message);
+                $('#error-modal-container').one('animationend', function() {
+                    $('#error-modal-container').removeClass('animate__animated animate__shakeX');
+                });
+            }
+        );
     });
     
     // Close error modal on button click
@@ -864,6 +896,15 @@ $(document).ready(function() {
         $('#error-modal-container').one('animationend', function() {
             $('#error-modal').addClass('hidden');
             $('#error-modal-container').removeClass('animate__animated animate__fadeOut');
+        });
+    });
+
+    // Close success modal on button click
+    $('#success-confirm-btn').on('click', function() {
+        $('#success-modal-container').addClass('animate__animated animate__fadeOut');
+        $('#success-modal-container').one('animationend', function() {
+            $('#success-modal').addClass('hidden');
+            $('#success-modal-container').removeClass('animate__animated animate__fadeOut');
         });
     });
 });
